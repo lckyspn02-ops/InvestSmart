@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX — Investing, Bonds & Financial Command</title>
+  <meta name="description" content="Bold, educational guidance on investing, financial management, bonds, and the platforms that move modern capital.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#070707',
+            paper: '#F4F1EA',
+            blaze: '#FF3B00',
+            volt: '#D6FF00',
+            steel: '#1A1A1A'
+          },
+          fontFamily: {
+            display: ['Bebas Neue', 'Impact', 'sans-serif'],
+            sans: ['Outfit', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; }
+    body { background: #070707; color: #F4F1EA; }
+    .display { font-family: 'Bebas Neue', Impact, sans-serif; letter-spacing: -0.02em; }
+    .hero-title {
+      font-size: clamp(4.2rem, 16vw, 14rem);
+      line-height: 0.82;
+      letter-spacing: -0.03em;
+    }
+    .section-num {
+      font-size: clamp(5rem, 14vw, 12rem);
+      line-height: 0.75;
+      opacity: 0.12;
+    }
+    .ticker-track {
+      animation: ticker 28s linear infinite;
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .card-slash {
+      clip-path: polygon(0 0, 100% 0, 100% 86%, 92% 100%, 0 100%);
+    }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 0; height: 3px;
+      background: #FF3B00;
+      transition: width 0.25s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    input[type=range] { -webkit-appearance: none; appearance: none; height: 4px; background: #333; outline: none; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 22px; height: 22px; border-radius: 0;
+      background: #FF3B00; cursor: pointer; border: 2px solid #F4F1EA;
+    }
+    .calc-glow { box-shadow: 0 0 0 1px #FF3B00, 12px 12px 0 #D6FF00; }
+    .mobile-panel { transform: translateX(100%); transition: transform 0.35s cubic-bezier(.2,.8,.2,1); }
+    .mobile-panel.open { transform: translateX(0); }
+    @media (max-width: 768px) {
+      .hero-title { font-size: clamp(3.4rem, 18vw, 6rem); }
+    }
+  </style>
+</head>
+<body class="font-sans overflow-x-hidden">
+  <!-- NAV -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-ink/90 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 h-16 md:h-20 flex items-center justify-between">
+      <a href="#top" class="display text-3xl md:text-4xl tracking-wide text-paper">APEX<span class="text-blaze">.</span></a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold uppercase tracking-widest">
+        <a href="#invest" class="nav-link">Investing</a>
+        <a href="#manage" class="nav-link">Manage</a>
+        <a href="#bonds" class="nav-link">Bonds</a>
+        <a href="#platforms" class="nav-link">Platforms</a>
+        <a href="#calc" class="bg-blaze text-ink px-5 py-2 font-extrabold hover:bg-volt transition-colors">Calculator</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden display text-2xl tracking-widest" aria-label="Open menu">MENU</button>
+    </div>
+  </header>
+
+  <div id="mobileNav" class="mobile-panel fixed inset-0 z-40 bg-ink pt-24 px-8 md:hidden">
+    <nav class="flex flex-col gap-6 display text-6xl leading-none">
+      <a href="#invest" class="mobile-link hover:text-blaze">INVESTING</a>
+      <a href="#manage" class="mobile-link hover:text-volt">MANAGE</a>
+      <a href="#bonds" class="mobile-link hover:text-blaze">BONDS</a>
+      <a href="#platforms" class="mobile-link hover:text-volt">PLATFORMS</a>
+      <a href="#calc" class="mobile-link text-blaze">CALCULATOR</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <section id="top" class="relative min-h-screen flex flex-col justify-end pt-24 pb-10 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute -top-24 -right-24 w-[55vw] h-[55vw] bg-blaze/20 blur-3xl rounded-full"></div>
+      <div class="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-volt/10 blur-3xl rounded-full"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-5 md:px-8 w-full relative">
+      <p class="uppercase tracking-[0.35em] text-xs md:text-sm font-bold text-volt mb-4">Education, not advice · Markets · Bonds · Discipline</p>
+      <h1 class="display hero-title text-paper">
+        BUILD WEALTH<br>
+        LIKE YOU <span class="text-blaze">MEAN IT</span>
+      </h1>
+      <div class="mt-8 md:mt-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <p class="max-w-xl text-lg md:text-xl text-paper/80 font-light leading-relaxed">
+          A high-voltage field guide to investing, cashflow command, and the bond markets — plus a clear map of the platforms people actually use.
+        </p>
+        <div class="flex gap-3">
+          <a href="#invest" class="bg-paper text-ink px-6 py-4 font-extrabold uppercase tracking-wider hover:bg-volt transition-colors">Start Learning</a>
+          <a href="#calc" class="border-2 border-blaze text-blaze px-6 py-4 font-extrabold uppercase tracking-wider hover:bg-blaze hover:text-ink transition-colors">Run the Numbers</a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-14 border-y border-white/10 overflow-hidden bg-blaze text-ink">
+      <div class="ticker-track flex whitespace-nowrap display text-3xl md:text-5xl py-3 gap-10">
+        <span>COMPOUND INTEREST · RISK IS THE PRICE OF RETURN · BONDS ARE BALLAST · CASHFLOW FIRST · DIVERSIFY OR DIE · TIME IN THE MARKET · FEES ARE A TAX ON LAZINESS · EMERGENCY FUND OR ELSE ·</span>
+        <span>COMPOUND INTEREST · RISK IS THE PRICE OF RETURN · BONDS ARE BALLAST · CASHFLOW FIRST · DIVERSIFY OR DIE · TIME IN THE MARKET · FEES ARE A TAX ON LAZINESS · EMERGENCY FUND OR ELSE ·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVESTING -->
+  <section id="invest" class="relative bg-paper text-ink py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="flex items-start justify-between gap-6 mb-12">
+        <div>
+          <p class="uppercase tracking-[0.3em] text-xs font-bold text-blaze">01 — The Core</p>
+          <h2 class="display text-6xl md:text-8xl leading-none mt-2">INVESTING<br>WITHOUT THE MYTHS</h2>
+        </div>
+        <span class="display section-num hidden lg:block">01</span>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+        <article class="reveal bg-ink text-paper p-8 md:p-10 card-slash">
+          <h3 class="display text-4xl md:text-5xl text-volt">OWN, DON'T HOPE</h3>
+          <p class="mt-4 text-paper/80 leading-relaxed">Investing is buying a claim on future cashflows. Stocks are ownership. Funds are baskets of ownership. The goal is not to be clever this week — it is to own productive assets long enough for compounding to do the violent, quiet work.</p>
+        </article>
+        <article class="reveal bg-white border-4 border-ink p-8 md:p-10">
+          <h3 class="display text-4xl md:text-5xl">RISK IS NOT A VILLAIN</h3>
+          <p class="mt-4 text-ink/80 leading-relaxed">Volatility is the fee you pay for higher expected returns. If you cannot stomach a 30–50% drawdown, you are over-allocated to equities. Match risk to time horizon: money needed in 3 years does not belong in the S&amp;P 500.</p>
+        </article>
+        <article class="reveal bg-blaze text-ink p-8 md:p-10">
+          <h3 class="display text-4xl md:text-5xl">THE ONLY EDGE MOST PEOPLE HAVE</h3>
+          <p class="mt-4 leading-relaxed font-medium">Time. Automatic contributions. Low fees. Broad diversification. Rebalancing once or twice a year. Everything else is entertainment dressed as strategy. Index funds exist so amateurs can stop competing with professionals.</p>
+        </article>
+        <article class="reveal bg-ink text-paper p-8 md:p-10">
+          <h3 class="display text-4xl md:text-5xl text-blaze">A STARTER STACK</h3>
+          <ul class="mt-4 space-y-3 text-paper/85">
+            <li class="flex gap-3"><span class="text-volt font-black">01</span> Emergency fund: 3–6 months of expenses in cash or T-bills.</li>
+            <li class="flex gap-3"><span class="text-volt font-black">02</span> Kill high-interest debt. 20% APR beats almost any market return.</li>
+            <li class="flex gap-3"><span class="text-volt font-black">03</span> Tax-advantaged accounts first (401k match, IRA, HSA).</li>
+            <li class="flex gap-3"><span class="text-volt font-black">04</span> Broad equity + bond mix. Increase bonds as the goal date nears.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANAGE -->
+  <section id="manage" class="bg-ink py-24 md:py-32 relative">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <p class="uppercase tracking-[0.3em] text-xs font-bold text-volt">02 — Command</p>
+      <h2 class="display text-6xl md:text-8xl leading-none mt-2 mb-12">FINANCIAL<br><span class="text-blaze">MANAGEMENT</span></h2>
+      <div class="grid lg:grid-cols-3 gap-5">
+        <div class="reveal border border-white/15 p-7 hover:border-blaze transition-colors">
+          <div class="display text-7xl text-blaze leading-none">50/30/20</div>
+          <h3 class="mt-4 font-extrabold uppercase tracking-wider">A blunt allocation</h3>
+          <p class="mt-3 text-paper/70">Needs 50%. Wants 30%. Future 20%. It is a starting grid, not scripture. If your rent is 45% of income, the grid breaks — then the job is to change the inputs, not the slogan.</p>
+        </div>
+        <div class="reveal border border-white/15 p-7 hover:border-volt transition-colors">
+          <div class="display text-7xl text-volt leading-none">NET WORTH</div>
+          <h3 class="mt-4 font-extrabold uppercase tracking-wider">The only scoreboard</h3>
+          <p class="mt-3 text-paper/70">Assets minus liabilities. Track it monthly. Income is vanity; net worth is the plot. Include retirement accounts, taxable brokerage, home equity, and every debt. Ignore likes. Watch the line.</p>
+        </div>
+        <div class="reveal border border-white/15 p-7 hover:border-blaze transition-colors">
+          <div class="display text-7xl text-paper leading-none">CASHFLOW</div>
+          <h3 class="mt-4 font-extrabold uppercase tracking-wider">Pay yourself first</h3>
+          <p class="mt-3 text-paper/70">Automate transfers the morning payday hits. If leftover cash is what you invest, you will invest leftover effort. Treat savings like rent you owe your future self — non-negotiable, slightly annoying, always on time.</p>
+        </div>
+      </div>
+      <div class="reveal mt-10 grid md:grid-cols-2 gap-5">
+        <div class="bg-paper text-ink p-8 md:p-10">
+          <h3 class="display text-5xl">DEBT TRIAGE</h3>
+          <p class="mt-4 text-ink/80">Avalanche method: highest interest first — mathematically optimal. Snowball: smallest balance first — psychologically sticky. Either beats paralysis. Never refinance curiosity into a 30-year mortgage of lifestyle.</p>
+        </div>
+        <div class="bg-blaze text-ink p-8 md:p-10">
+          <h3 class="display text-5xl">THE BORING SUPERPOWER</h3>
+          <p class="mt-4 font-medium">A written plan beats a clever opinion. Define the goal, the date, the monthly number, and the account it lives in. Review quarterly. Change the plan on purpose — not because a headline screamed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BONDS -->
+  <section id="bonds" class="bg-paper text-ink py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+        <div class="lg:col-span-8">
+          <p class="uppercase tracking-[0.3em] text-xs font-bold text-blaze">03 — Fixed Income</p>
+          <h2 class="display text-6xl md:text-8xl leading-none mt-2">BONDS ARE NOT<br>BORING. THEY'RE BALLAST.</h2>
+        </div>
+        <p class="lg:col-span-4 text-ink/70">A bond is a loan. You are the bank. You collect coupons. You get principal back — unless the issuer defaults. Price and yield move inversely. Duration tells you how violently price will swing when rates move.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="reveal bg-ink text-paper p-6 min-h-[260px] flex flex-col">
+          <span class="text-volt font-black tracking-widest text-xs uppercase">Type</span>
+          <h3 class="display text-4xl mt-2">TREASURIES</h3>
+          <p class="mt-3 text-sm text-paper/70 flex-1">Backed by the U.S. government. T-bills, notes, bonds. Benchmark for “risk-free” rate. Ideal for emergency reserves and known near-term liabilities.</p>
+        </div>
+        <div class="reveal bg-ink text-paper p-6 min-h-[260px] flex flex-col">
+          <span class="text-blaze font-black tracking-widest text-xs uppercase">Type</span>
+          <h3 class="display text-4xl mt-2">MUNICIPALS</h3>
+          <p class="mt-3 text-sm text-paper/70 flex-1">Issued by states and cities. Interest is often federal-tax-free (sometimes state-tax-free). Compare tax-equivalent yield, not the headline coupon.</p>
+        </div>
+        <div class="reveal bg-ink text-paper p-6 min-h-[260px] flex flex-col">
+          <span class="text-volt font-black tracking-widest text-xs uppercase">Type</span>
+          <h3 class="display text-4xl mt-2">CORPORATES</h3>
+          <p class="mt-3 text-sm text-paper/70 flex-1">Companies borrowing. Investment-grade vs high-yield (“junk”). Extra yield is compensation for default risk. Credit spreads widen when fear arrives.</p>
+        </div>
+        <div class="reveal bg-blaze text-ink p-6 min-h-[260px] flex flex-col">
+          <span class="font-black tracking-widest text-xs uppercase">Rule</span>
+          <h3 class="display text-4xl mt-2">DURATION</h3>
+          <p class="mt-3 text-sm flex-1">A 7-year duration fund can lose ~7% if yields jump 1%. Long bonds amplify rate risk. Short bonds sleep better. Ladder maturities if you need cash on a schedule.</p>
+        </div>
+      </div>
+      <div class="reveal mt-8 border-4 border-ink p-8 md:p-10">
+        <h3 class="display text-4xl md:text-5xl">WHY BONDS STILL MATTER IN A STOCK WORLD</h3>
+        <div class="grid md:grid-cols-3 gap-8 mt-6">
+          <p><strong class="block text-blaze uppercase tracking-wider text-xs mb-2">Dry powder</strong> When equities crash, high-quality bonds often hold or rise. That is the rebalancing gift: sell ballast, buy beaten-down ownership.</p>
+          <p><strong class="block text-blaze uppercase tracking-wider text-xs mb-2">Known cash</strong> Coupons and maturities fund tuition, a house down payment, or retirement withdrawals without selling stocks in a hole.</p>
+          <p><strong class="block text-blaze uppercase tracking-wider text-xs mb-2">Sleep</strong> A 100% equity portfolio is a personality test. Most people fail it at the worst possible moment. Bonds are how you stay invested.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <section id="platforms" class="bg-ink py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <p class="uppercase tracking-[0.3em] text-xs font-bold text-volt">04 — The Rails</p>
+      <h2 class="display text-6xl md:text-8xl leading-none mt-2 mb-4">PLATFORMS THAT<br>MOVE THE MONEY</h2>
+      <p class="max-w-2xl text-paper/70 mb-12">Educational snapshots of widely used brokerages and fund houses. Fees, tools, and fit change. Read the latest disclosures. This is a map, not an endorsement.</p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <article class="reveal group border border-white/15 p-7 hover:bg-paper hover:text-ink transition-colors">
+          <div class="flex justify-between items-start">
+            <h3 class="display text-4xl">VANGUARD</h3>
+            <span class="text-xs font-bold uppercase tracking-widest text-volt group-hover:text-blaze">Funds</span>
+          </div>
+          <p class="mt-4 text-sm opacity-80">The index-fund cathedral. Famous for rock-bottom expense ratios and a client-owned structure. Best when you want to buy the haystack and ignore the needles.</p>
+        </article>
+        <article class="reveal group border border-white/15 p-7 hover:bg-paper hover:text-ink transition-colors">
+          <div class="flex justify-between items-start">
+            <h3 class="display text-4xl">FIDELITY</h3>
+            <span class="text-xs font-bold uppercase tracking-widest text-volt group-hover:text-blaze">Full stack</span>
+          </div>
+          <p class="mt-4 text-sm opacity-80">Brokerage + retirement + zero-expense index funds + strong research. A workhorse for households that want one login for 401k rollovers, IRAs, and taxable.</p>
+        </article>
+        <article class="reveal group border border-white/15 p-7 hover:bg-paper hover:text-ink transition-colors">
+          <div class="flex justify-between items-start">
+            <h3 class="display text-4xl">SCHWAB</h3>
+            <span class="text-xs font-bold uppercase tracking-widest text-volt group-hover:text-blaze">Scale</span>
+          </div>
+          <p class="mt-4 text-sm opacity-80">Huge branch network, checking-like sweep, and a deep ETF shelf. Often chosen by people who still want a human somewhere in the building.</p>
+        </article>
+        <article class="reveal group border border-white/15 p-7 hover:bg-paper hover:text-ink transition-colors">
+          <div class="flex justify-between items-start">
+            <h3 class="display text-4xl">IBKR</h3>
+            <span class="text-xs font-bold uppercase tracking-widest text-volt group-hover:text-blaze">Pro tools</span>
+          </div>
+          <p class="mt-4 text-sm opacity-80">Interactive Brokers. Global markets, tight spreads, serious margin and options tooling. Powerful, dense, unforgiving to beginners. Know the interface before you size up.</p>
+        </article>
+        <article class="reveal group border border-white/15 p-7 hover:bg-paper hover:text-ink transition-colors">
+          <div class="flex justify-between items-start">
+            <h3 class="display text-4xl">ROBINHOOD</h3>
+            <span class="text-xs font-bold uppercase tracking-widest text-volt group-hover:text-blaze">Access</span>
+          </div>
+          <p class="mt-4 text-sm opacity-80">Frictionless mobile trading brought millions in. Commission-free is now table stakes. The risk is behavioral: easy taps can become expensive habits. Use it as a tool, not a casino skin.</p>
+        </article>
+        <article class="reveal group border border-white/15 p-7 hover:bg-blaze hover:text-ink transition-colors">
+          <div class="flex justify-between items-start">
+            <h3 class="display text-4xl">TREASURYDIRECT</h3>
+            <span class="text-xs font-bold uppercase tracking-widest">Gov</span>
+          </div>
+          <p class="mt-4 text-sm opacity-90">The official window for I Bonds and many Treasuries. Clunky UX, pristine credit. I Bonds have purchase caps and holding rules — read them. Ideal for a slice of inflation-linked ballast.</p>
+        </article>
+      </div>
+      <p class="mt-8 text-xs uppercase tracking-widest text-paper/40">Always verify fees, order routing, SIPC coverage, and tax forms. Platforms are pipes. Your behavior is the product.</p>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section id="calc" class="bg-volt text-ink py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <p class="uppercase tracking-[0.3em] text-xs font-black">05 — Compounder</p>
+          <h2 class="display text-6xl md:text-8xl leading-none mt-2">SEE THE MATH<br>HIT BACK</h2>
+          <p class="mt-6 max-w-md font-medium">A monthly-contribution compound-interest engine. Assumptions are blunt on purpose. Markets do not deliver a smooth rate — this is a planning sketch, not a promise.</p>
+          <div class="mt-8 space-y-6">
+            <label class="block">
+              <div class="flex justify-between font-extrabold uppercase text-xs tracking-widest mb-2">
+                <span>Starting capital</span><span id="pLabel">$10,000</span>
+              </div>
+              <input id="principal" type="range" min="0" max="250000" step="500" value="10000" class="w-full">
+            </label>
+            <label class="block">
+              <div class="flex justify-between font-extrabold uppercase text-xs tracking-widest mb-2">
+                <span>Monthly add</span><span id="mLabel">$500</span>
+              </div>
+              <input id="monthly" type="range" min="0" max="5000" step="50" value="500" class="w-full">
+            </label>
+            <label class="block">
+              <div class="flex justify-between font-extrabold uppercase text-xs tracking-widest mb-2">
+                <span>Annual return</span><span id="rLabel">7%</span>
+              </div>
+              <input id="rate" type="range" min="0" max="15" step="0.5" value="7" class="w-full">
+            </label>
+            <label class="block">
+              <div class="flex justify-between font-extrabold uppercase text-xs tracking-widest mb-2">
+                <span>Years</span><span id="yLabel">20</span>
+              </div>
+              <input id="years" type="range" min="1" max="45" step="1" value="20" class="w-full">
+            </label>
+          </div>
+        </div>
+        <div class="calc-glow bg-ink text-paper p-8 md:p-12">
+          <p class="uppercase tracking-[0.25em] text-xs text-volt font-bold">Projected value</p>
+          <div id="fv" class="display text-6xl md:text-8xl leading-none mt-2 text-blaze">$0</div>
+          <div class="grid grid-cols-2 gap-6 mt-10">
+            <div>
+              <p class="text-xs uppercase tracking-widest text-paper/50">You put in</p>
+              <p id="contrib" class="display text-4xl mt-1">$0</p>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-widest text-paper/50">Markets added</p>
+              <p id="gain" class="display text-4xl mt-1 text-volt">$0</p>
+            </div>
+          </div>
+          <p class="mt-10 text-xs text-paper/50 leading-relaxed">Formula assumes monthly compounding and contributions at period end. Inflation, taxes, fees, and sequence-of-returns risk are ignored. Past performance is not a forecast.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-paper text-ink py-24">
+    <div class="max-w-4xl mx-auto px-5 md:px-8">
+      <h2 class="display text-6xl md:text-7xl mb-10">SHARP QUESTIONS</h2>
+      <div class="space-y-3" id="faq">
+        <details class="group border-4 border-ink open:bg-ink open:text-paper transition-colors">
+          <summary class="cursor-pointer list-none p-5 display text-3xl flex justify-between items-center">Should I pick stocks?<span class="text-blaze group-open:rotate-45 transition-transform text-4xl leading-none">+</span></summary>
+          <p class="px-5 pb-5 text-sm md:text-base opacity-80">Most people should not. A total-market or S&amp;P 500 index fund plus a bond fund beats the majority of active stock-pickers after fees. If you still want to pick, cap it at a small “play” sleeve so a bad thesis cannot wreck the plan.</p>
+        </details>
+        <details class="group border-4 border-ink open:bg-ink open:text-paper transition-colors">
+          <summary class="cursor-pointer list-none p-5 display text-3xl flex justify-between items-center">Bonds when rates are high?<span class="text-blaze group-open:rotate-45 transition-transform text-4xl leading-none">+</span></summary>
+          <p class="px-5 pb-5 text-sm md:text-base opacity-80">Higher starting yields improve the long-run math. Short and intermediate Treasuries or a high-quality bond index can lock in income without stretching for junk credit. Match duration to when you need the cash.</p>
+        </details>
+        <details class="group border-4 border-ink open:bg-ink open:text-paper transition-colors">
+          <summary class="cursor-pointer list-none p-5 display text-3xl flex justify-between items-center">How much cash is too much?<span class="text-blaze group-open:rotate-45 transition-transform text-4xl leading-none">+</span></summary>
+          <p class="px-5 pb-5 text-sm md:text-base opacity-80">Enough to not sell assets in a panic: typically 3–12 months of expenses depending on job stability. Beyond that, idle cash is a hidden fee called inflation. Park extras in T-bills or a Treasury money-market fund.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-ink border-t border-white/10 py-16">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 grid md:grid-cols-2 gap-10">
+      <div>
+        <div class="display text-6xl">APEX<span class="text-blaze">.</span></div>
+        <p class="mt-4 max-w-md text-paper/60">Educational content on investing, financial management, and bonds. Not personalized advice. Markets can and will humble certainty.</p>
+      </div>
+      <div class="md:text-right">
+        <p class="text-xs uppercase tracking-[0.25em] text-paper/40 mb-3">Not a broker · Not a fiduciary page · Not a crystal ball</p>
+        <p class="text-sm text-paper/50 max-w-md md:ml-auto">Nothing here is an offer to buy or sell securities. Do your own work. Consider a licensed advisor for decisions that can change your life.</p>
+        <p class="mt-8 text-xs text-paper/30">© <span id="yr"></span> APEX Education. Built for clarity, not clicks.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      menuBtn.textContent = open ? 'CLOSE' : 'MENU';
+    });
+    document.querySelectorAll('.mobile-link').forEach(a => a.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      menuBtn.textContent = 'MENU';
+    }));
+
+    const money = n => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const principal = document.getElementById('principal');
+    const monthly = document.getElementById('monthly');
+    const rate = document.getElementById('rate');
+    const years = document.getElementById('years');
+
+    function compute() {
+      const P = +principal.value;
+      const PMT = +monthly.value;
+      const r = +rate.value / 100 / 12;
+      const n = +years.value * 12;
+      document.getElementById('pLabel').textContent = money(P);
+      document.getElementById('mLabel').textContent = money(PMT);
+      document.getElementById('rLabel').textContent = rate.value + '%';
+      document.getElementById('yLabel').textContent = years.value;
+      let fv = P;
+      if (r === 0) fv = P + PMT * n;
+      else fv = P * Math.pow(1 + r, n) + PMT * ((Math.pow(1 + r, n) - 1) / r);
+      const contrib = P + PMT * n;
+      document.getElementById('fv').textContent = money(fv);
+      document.getElementById('contrib').textContent = money(contrib);
+      document.getElementById('gain').textContent = money(Math.max(0, fv - contrib));
+    }
+    [principal, monthly, rate, years].forEach(el => el.addEventListener('input', compute));
+    compute();
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
